@@ -1,23 +1,30 @@
+import { useEffect, useRef } from 'react'
+
 /**
- * Scalloped "sticker" badge — the signature shape from the design.
- * Pure CSS via clip-path so it stays crisp at any size and needs no image asset.
+ * Adds the `is-visible` class to an element once it scrolls into view.
+ * Respects prefers-reduced-motion via CSS (see index.css), and only
+ * animates once per element so re-scrolling doesn't retrigger it.
  */
-export default function StickerBadge({ label, size = 'md', tone = 'light', className = '' }) {
-  const sizes = {
-    md: 'h-32 w-32 text-sm sm:h-36 sm:w-36 sm:text-base',
-    lg: 'h-36 w-36 text-base sm:h-40 sm:w-40 sm:text-lg',
-  }
+export default function useReveal(options = {}) {
+  const ref = useRef(null)
 
-  const tones = {
-    light: 'bg-fulani-cream text-fulani-ink',
-    cream: 'bg-white text-fulani-ink',
-  }
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return undefined
 
-  return (
-    <div
-      className={`sticker-badge flex items-center justify-center text-center font-display font-semibold shadow-md transition-transform duration-300 ease-out hover:scale-105 ${sizes[size]} ${tones[tone]} ${className}`}
-    >
-      <span className="px-4">{label}</span>
-    </div>
-  )
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -60px 0px', ...options }
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [options])
+
+  return ref
 }
