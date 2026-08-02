@@ -1,23 +1,28 @@
-/**
- * Scalloped "sticker" badge — the signature shape from the design.
- * Pure CSS via clip-path so it stays crisp at any size and needs no image asset.
- */
-export default function StickerBadge({ label, size = 'md', tone = 'light', className = '' }) {
-  const sizes = {
-    md: 'h-32 w-32 text-sm sm:h-36 sm:w-36 sm:text-base',
-    lg: 'h-36 w-36 text-base sm:h-40 sm:w-40 sm:text-lg',
-  }
+import Button from './Button'
+import { whatsappLink } from '../siteConfig'
+import useReveal from '../hooks/useReveal'
 
-  const tones = {
-    light: 'bg-fulani-cream text-fulani-ink',
-    cream: 'bg-white text-fulani-ink',
-  }
+export default function FinalCta() {
+  const ref = useReveal()
 
   return (
-    <div
-      className={`sticker-badge flex items-center justify-center text-center font-display font-semibold shadow-md transition-transform duration-300 ease-out hover:scale-105 ${sizes[size]} ${tones[tone]} ${className}`}
-    >
-      <span className="px-4">{label}</span>
-    </div>
+    <section className="bg-fulani-ink px-5 py-16 sm:px-8 lg:py-20">
+      <div
+        ref={ref}
+        className="reveal mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"
+      >
+        <h2 className="max-w-lg font-display text-3xl font-semibold italic leading-tight text-fulani-cream sm:text-4xl">
+          Ready to Begin Your Fulani Language Journey?
+        </h2>
+
+        <Button
+          href={whatsappLink('Hi Fulaniturto! I want to enrol for classes.')}
+          variant="green"
+          className="shrink-0"
+        >
+          Enrol for Classes
+        </Button>
+      </div>
+    </section>
   )
 }
