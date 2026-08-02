@@ -1,28 +1,34 @@
-import Button from './Button'
-import { whatsappLink } from '../siteConfig'
-import useReveal from '../hooks/useReveal'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import About from './components/About'
+import WhatYoullLearn from './components/WhatYoullLearn'
+import Support from './components/Support'
+import AnyQuestion from './components/AnyQuestion'
+import FinalCta from './components/FinalCta'
+import Footer from './components/Footer'
 
-export default function FinalCta() {
-  const ref = useReveal()
-
+export default function App() {
   return (
-    <section className="bg-fulani-ink px-5 py-16 sm:px-8 lg:py-20">
-      <div
-        ref={ref}
-        className="reveal mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"
+    <div className="min-h-screen">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-fulani-green focus:px-4 focus:py-2 focus:text-white"
       >
-        <h2 className="max-w-lg font-display text-3xl font-semibold italic leading-tight text-fulani-cream sm:text-4xl">
-          Ready to Begin Your Fulani Language Journey?
-        </h2>
+        Skip to content
+      </a>
 
-        <Button
-          href={whatsappLink('Hi Fulaniturto! I want to enrol for classes.')}
-          variant="green"
-          className="shrink-0"
-        >
-          Enrol for Classes
-        </Button>
-      </div>
-    </section>
+      <Header />
+
+      <main id="main">
+        <Hero />
+        <About />
+        <WhatYoullLearn />
+        <Support />
+        <AnyQuestion />
+        <FinalCta />
+      </main>
+
+      <Footer />
+    </div>
   )
 }

@@ -1,28 +1,79 @@
-import Button from './Button'
-import { whatsappLink } from '../siteConfig'
-import useReveal from '../hooks/useReveal'
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export default function FinalCta() {
-  const ref = useReveal()
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-  return (
-    <section className="bg-fulani-ink px-5 py-16 sm:px-8 lg:py-20">
-      <div
-        ref={ref}
-        className="reveal mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"
-      >
-        <h2 className="max-w-lg font-display text-3xl font-semibold italic leading-tight text-fulani-cream sm:text-4xl">
-          Ready to Begin Your Fulani Language Journey?
-        </h2>
+  body {
+    @apply bg-fulani-cream text-fulani-ink font-body antialiased;
+  }
 
-        <Button
-          href={whatsappLink('Hi Fulaniturto! I want to enrol for classes.')}
-          variant="green"
-          className="shrink-0"
-        >
-          Enrol for Classes
-        </Button>
-      </div>
-    </section>
-  )
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  :focus-visible {
+    outline: 3px solid #1E8A4C;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .sticker-badge {
+    border-radius: 50%;
+    clip-path: polygon(
+      50% 0%, 58% 7%, 68% 2%, 73% 11%, 84% 8%, 86% 18%, 97% 19%, 95% 29%,
+      100% 35%, 94% 42%, 97% 52%, 89% 55%, 89% 65%, 80% 65%, 77% 75%,
+      68% 71%, 61% 79%, 55% 71%, 46% 79%, 39% 71%, 32% 75%, 29% 65%,
+      20% 65%, 20% 55%, 11% 52%, 14% 42%, 8% 35%, 13% 29%, 11% 19%,
+      22% 18%, 24% 8%, 35% 11%, 40% 2%, 50% 7%
+    );
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Nested reveal children: when an ancestor with .reveal receives
+     .is-visible, any .reveal descendants animate in too (staggered via
+     .reveal-delay-N), without needing their own IntersectionObserver. */
+  .reveal.is-visible .reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
